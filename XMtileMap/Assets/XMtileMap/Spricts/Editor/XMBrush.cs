@@ -12,7 +12,7 @@ namespace XMtileMap
 {
     [CreateAssetMenu]
     [CustomGridBrush(false, true, false, "XM Brush")]
-    public class XMBrush : GridBrush
+    public class XMBrush : UnityEditor.Tilemaps.GridBrush
     {
         public override void Paint(GridLayout gridLayout, GameObject brushTarget, Vector3Int position)
         {
@@ -59,7 +59,7 @@ namespace XMtileMap
     }
 
     [CustomEditor(typeof(XMBrush))]
-    public class XMBrushEditor : GridBrushEditor
+    public class XMBrushEditor : UnityEditor.Tilemaps.GridBrushEditor
     {
         private XMBrushEditor prefabBrush { get { return target as XMBrushEditor; } }
 

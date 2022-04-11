@@ -19,6 +19,7 @@ namespace XMtileMap
         public static string TargetDataPath = "Assets/XMtileMap/Data/TargetData.asset";
 
         private static TileMapSerialize mapData;
+
         /// <summary>
         /// 地图数据，游戏使用的数据
         /// </summary>
@@ -34,11 +35,13 @@ namespace XMtileMap
                     mapData = UnityEditor.AssetDatabase.LoadAssetAtPath<TileMapSerialize>(MapDataPath);
 #endif
                 }
+
                 return mapData;
             }
         }
 
         private static TileMapSerialize sourceData;
+
         /// <summary>
         /// 地图源数据，保存用
         /// </summary>
@@ -54,11 +57,13 @@ namespace XMtileMap
                     sourceData = UnityEditor.AssetDatabase.LoadAssetAtPath<TileMapSerialize>(SourceDataPath);
 #endif
                 }
+
                 return sourceData;
             }
         }
 
         private static TileMapSerialize targetData;
+
         /// <summary>
         /// 副本数据，编辑用
         /// </summary>
@@ -74,6 +79,7 @@ namespace XMtileMap
                     targetData = UnityEditor.AssetDatabase.LoadAssetAtPath<TileMapSerialize>(TargetDataPath);
 #endif
                 }
+
                 return targetData;
             }
         }
@@ -86,7 +92,7 @@ namespace XMtileMap
         /// <summary>
         /// A星寻路的地图数据
         /// </summary>
-        public static Dictionary<Vector2,Point> map;
+        public static Dictionary<Vector2, Point> map;
 
         public static Vector2 tileOffset2 = new Vector2(0.5f, 0.5f);
         public static Vector3 tileOffset3 = new Vector3(0.5f, 0.5f, -0.5f);
@@ -101,7 +107,8 @@ namespace XMtileMap
             TileMapSerialize targetData = UnityEditor.AssetDatabase.LoadAssetAtPath<TileMapSerialize>(path);
             if (targetData == null)
             {
-                string newPath = UnityEditor.EditorUtility.SaveFilePanelInProject("Save TileMapSerialize", "New TileMapSerialize", "asset", "Save TileMapSerialize", "Assets");
+                string newPath = UnityEditor.EditorUtility.SaveFilePanelInProject("Save TileMapSerialize",
+                    "New TileMapSerialize", "asset", "Save TileMapSerialize", "Assets");
 
                 if (newPath == "")
                     return;
@@ -141,10 +148,13 @@ namespace XMtileMap
                             mapdata.tileInfoList.Add(tile);
                         }
                     }
+
                     list.tileMapDataList.Add(mapdata);
                 }
+
                 target.Add(list);
             }
+
             if (target == SourceData.Data)
             {
                 UnityEditor.EditorUtility.SetDirty(TargetData);
@@ -154,11 +164,18 @@ namespace XMtileMap
             {
                 UnityEditor.EditorUtility.SetDirty(TargetData);
             }
-            File.Copy(Application.dataPath + "/XMtileMap/Data/SourceData.asset", Application.dataPath + "/RefResources/ScriptableObjects/MapData.asset",true);
+
+            var _targetPath = $"{Application.dataPath}/RefResources/ScriptableObjects";
+            if (!Directory.Exists(_targetPath))
+            {
+                Directory.CreateDirectory(_targetPath);
+            }
+
+            File.Copy(Application.dataPath + "/XMtileMap/Data/SourceData.asset", $"{_targetPath}/MapData.asset", true);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
         }
-        
+
 
         /// <summary>
         /// 保存json
@@ -187,6 +204,7 @@ namespace XMtileMap
                     {
                         item.tileInfoList = new List<TileInfo>();
                     }
+
                     bool isadd = true;
                     for (int i = 0; i < item.tileInfoList.Count; i++)
                     {
@@ -197,6 +215,7 @@ namespace XMtileMap
                             break;
                         }
                     }
+
                     if (isadd)
                     {
                         item.tileInfoList.Add(data);
@@ -249,6 +268,5 @@ namespace XMtileMap
             TargetData.Data[MapID].tileMapDataList.Clear();
         }
 #endif
-
     }
 }
